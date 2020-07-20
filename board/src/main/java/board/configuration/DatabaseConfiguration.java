@@ -21,9 +21,11 @@ import com.zaxxer.hikari.HikariDataSource;
 @PropertySource("classpath:/application.properties") 
 public class DatabaseConfiguration {
 
+	// 마이바티스 연동하기
 	@Autowired
 	private ApplicationContext applicationContext;
 	
+//-------------------------- 히카리 커넥션 풀 ---------------------------
 	@Bean
 	//properties에 설정된 데이터베이스 정보를 사용하도록 함
 	//히카리 커넥션 풀의 설정 파일을 만듬
@@ -39,6 +41,8 @@ public class DatabaseConfiguration {
 		System.out.println(dataSource.toString());
 		return dataSource;
 	}
+
+// ----------------------- 마이바티스 연동하기 -------------------------------
 	
 	//mapper : 애플리케이션에서 사용할 SQL을 담고 있는 XML 파일
 	@Bean
@@ -46,6 +50,7 @@ public class DatabaseConfiguration {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean(); //스프링-마이바티스에서 SqlSessionFactory를 생성하기 위해선 SqlSessionFactoryBean 사용
 		sqlSessionFactoryBean.setDataSource(dataSource); //앞서 만든 데이터 소스 설정
 		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/sql-*.xml")); //마이바티스 매퍼 파일의 위치 설정
+		sqlSessionFactoryBean.setConfiguration(mybatisConfig());
 		return sqlSessionFactoryBean.getObject();
 	}
 	
@@ -53,5 +58,27 @@ public class DatabaseConfiguration {
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
+	
+// ----------------------- 마이바티스 설정하기 -------------------------------
+	@Bean
+	@ConfigurationProperties(prefix="mybatis.configuration") // properties의 설정된 마이바티스 정보 가져오기
+	public org.apache.ibatis.session.Configuration mybatisConfig(){
+		return new org.apache.ibatis.session.Configuration(); // 가져온 마이바티스 설정을 자바 클래스로 만들어서 반환
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
