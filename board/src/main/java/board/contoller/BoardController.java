@@ -36,5 +36,22 @@ public class BoardController {
 		return "redirect:/board/openBoardList.do";
 	}
 	
+	@RequestMapping("/board/openBoardDetail.do")
+	public ModelAndView openBoardDetail
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
