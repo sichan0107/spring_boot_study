@@ -11,6 +11,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -18,7 +21,11 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 //application.properties를 사용할 수 있도록 위치 지정
 //@PropertySource 어노테이션을 추가해서 다른 설정 파일도 사용 가능
+
 @PropertySource("classpath:/application.properties") 
+
+// 어노테이션을 이용한 트랜잭션 활성화
+@EnableTransactionManagement 
 public class DatabaseConfiguration {
 
 	// 마이바티스 연동하기
@@ -64,6 +71,12 @@ public class DatabaseConfiguration {
 	@ConfigurationProperties(prefix="mybatis.configuration") // properties의 설정된 마이바티스 정보 가져오기
 	public org.apache.ibatis.session.Configuration mybatisConfig(){
 		return new org.apache.ibatis.session.Configuration(); // 가져온 마이바티스 설정을 자바 클래스로 만들어서 반환
+	}
+	
+// ----------------------- 트랜잭션 설정하기 ----------------------------
+	@Bean
+	public PlatformTransactionManager transactionManager() throws Exception{
+		return new DataSourceTransactionManager(dataSource());
 	}
 	
 	
