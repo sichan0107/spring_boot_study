@@ -8,4 +8,6 @@
 
 ## 4. File Upload
 
-## 5. RESR API
+## 5. REST API
+
+## 6. 배포
