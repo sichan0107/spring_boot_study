@@ -20,7 +20,6 @@ public class BoardController {
 	@RequestMapping("/board/openBoardList.do")
 	public ModelAndView openBoardList() throws Exception{
 		ModelAndView mv = new ModelAndView("/board/boardList"); ///board/boardList = template 폴더의 html파일
-		
 		List<BoardDto> list = boardService.selectBoardList();
 		mv.addObject("list", list);
 		return mv;
