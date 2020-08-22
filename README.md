@@ -5,8 +5,9 @@
 ## 2. Log & Transaction
 
 ## 3. Interceptor
-
+  
 ## 4. File Upload
+  - Apache Common Fileupload ( CommonsMultipartResolver )
 
 ## 5. REST API
 
