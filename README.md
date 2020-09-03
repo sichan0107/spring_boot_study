@@ -34,5 +34,7 @@
   - Apache FileUtils class로 저장 경로 파일을 읽어 byte[]로 변환
   - UTF-8 인코딩 설정 중요
 ## 5. REST API
-
+  - REST 한줄 설명 : 리소스를 HTTP URI로 잘 표현하고 (명사형), HTTP 메소드로 동작시키는 것. 여기서 리소스는 JSON, XML 등으로 표현 가능.
+  - **Spring Boot 2.1 이상은 HiddenHttpMethodFilter가 탑재되어 있는데 이게 default값이 false임**
+  - 따라서 application.properties에 **꼭** 이것을 기입할 것. **spring.mvc.hiddenmethod.filter.enabled=true**
 ## 6. 배포
