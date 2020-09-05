@@ -6,11 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import board.common.FileUtils;
 import board.dto.BoardDto;
+import board.dto.BoardFileDto;
 import board.mapper.BoardMapper;
 
 @Service
@@ -22,6 +25,10 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardMapper boardMapper; 
 	
+	//파일 정보를 저장하기위한 클래스를 주입
+	@Autowired
+	private FileUtils fileUtils;
+	
 	@Override
 	public List<BoardDto> selectBoardList() throws Exception{
 		return boardMapper.selectBoardList();
@@ -29,30 +36,25 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
-		//boardMapper.insertBoard(board); 
-		if(ObjectUtils.isEmpty(multipartHttpServletRequest) == false) {
-			Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-			String name;
-			while(iterator.hasNext()) {
-				name = iterator.next();
-				System.out.println("file tag name : " + name);
-				List<MultipartFile> list = multipartHttpServletRequest.getFiles(name);
-				for(MultipartFile multiPartFile : list) {
-					System.out.println("파일 정보 출력 시작");
-					System.out.println("파일명 : " + multiPartFile.getOriginalFilename());
-					System.out.println("파일 사이즈 : " + multiPartFile.getSize());
-					System.out.println("파일 타입 : " + multiPartFile.getContentType());
-					System.out.println("출력 종료");
-				}
-			}
+		boardMapper.insertBoard(board); // 게시물 정보 저장
+		List<BoardFileDto> list = fileUtils.parseFileDto(board.getBoardIdx(), multipartHttpServletRequest); // 게시물 첨부파일 정보 저장
+		if(CollectionUtils.isEmpty(list) == false){
+			boardMapper.insertBoardFileList(list);
 		}
 	}
 	
 	@Override
 	public BoardDto selectBoardDetail(int boardIdx) throws Exception{
-		boardMapper.updateHitCount(boardIdx);
 		BoardDto board = boardMapper.selectBoardDetail(boardIdx);
+		List<BoardFileDto> fileList = boardMapper.selectBoardFileList(boardIdx);
+		board.setFileList(fileList);
+		boardMapper.updateHitCount(boardIdx); //조회수 증가
 		return board;
+	}
+	
+	@Override
+	public BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception{
+		return boardMapper.selectBoardFileInformation(idx, boardIdx);
 	}
 	
 	@Override

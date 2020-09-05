@@ -1,0 +1,99 @@
+package board.contoller;
+
+import java.io.File;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import board.dto.BoardDto;
+import board.dto.BoardFileDto;
+import board.service.BoardService;
+
+@Controller
+public class RestBoardController {
+	
+	@Autowired
+	private BoardService boardService;
+	
+	/*
+	 * Restful하도록 만든 컨트롤러 이지만 REST API라고 말할 순 없다. 왜냐하면 뷰와 서비스가 분리되지 않고 모두 컨트롤러에서 동작하기 때문. 
+	 */
+	
+	// GetMapping으로 써도됨. 
+	@RequestMapping(value="/board", method=RequestMethod.GET)
+	public ModelAndView openBoardList() throws Exception{
+		ModelAndView mv = new ModelAndView("/board/restBoardList");
+		
+		List<BoardDto> list = boardService.selectBoardList();
+		mv.addObject("list", list);
+		
+		return mv;
+	}
+	// ----------- 같은 URI, 다른 요청 방식으로 다른 로직이 구동됨 --------------------
+	// 게시글 작성화면 호출
+	@RequestMapping(value="/board/write", method=RequestMethod.GET)
+	public String openBoardWrite() throws Exception{
+		return "/board/restBoardWrite";
+	}
+	// 게시글 작성 저장
+	@RequestMapping(value="/board/write", method=RequestMethod.POST)
+	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
+		boardService.insertBoard(board, multipartHttpServletRequest);
+		return "redirect:/board";
+	}
+	// -----------------------------------------------------------------
+	
+	// {boardIdx}의 값이 PathVariable에 파라미터로 들어간다.
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.GET)
+	public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx) throws Exception{
+		ModelAndView mv = new ModelAndView("/board/restBoardDetail");
+		
+		BoardDto board = boardService.selectBoardDetail(boardIdx);
+		mv.addObject("board", board);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.PUT)
+	public String updateBoard(BoardDto board) throws Exception{
+		boardService.updateBoard(board);
+		return "redirect:/board";
+	}
+	
+	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.DELETE)
+	public String deleteBoard(@PathVariable("boardIdx") int boardIdx) throws Exception{
+		boardService.deleteBoard(boardIdx);
+		return "redirect:/board";
+	}
+	
+	@RequestMapping(value="/board/file", method=RequestMethod.GET)
+	public void downloadBoardFile(@RequestParam int idx, @RequestParam int boardIdx, HttpServletResponse response) throws Exception{
+		BoardFileDto boardFile = boardService.selectBoardFileInformation(idx, boardIdx);
+		if(ObjectUtils.isEmpty(boardFile) == false) {
+			String fileName = boardFile.getOriginalFileName();
+			
+			byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFilePath()));
+			
+			response.setContentType("application/octet-stream");
+			response.setContentLength(files.length);
+			response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName,"UTF-8")+"\";");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+			
+			response.getOutputStream().write(files);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		}
+	}
+}

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.dto.BoardDto;
+import board.dto.BoardFileDto;
 
 
 public interface BoardService {
@@ -20,4 +21,5 @@ public interface BoardService {
 		
 	void deleteBoard(int boardIdx) throws Exception;
 	
+	BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception;
 }

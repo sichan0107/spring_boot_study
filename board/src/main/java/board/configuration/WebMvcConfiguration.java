@@ -22,5 +22,5 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
 		commonsMultipartResolver.setMaxUploadSizePerFile(5*1024*1024); //업로드 파일 크기 제한 5mb
 		return commonsMultipartResolver;
 	}
-	
+
 }
