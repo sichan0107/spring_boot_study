@@ -1,21 +1,19 @@
-.metadata
+# Eclipse Metadata
+.metadata/
 .recommenders
-.loadpath
+
+# generated files
 bin/
-*.bak
-*.tmp
-local.properties
 
 ### STS ###
 .apt_generated
 .classpath
-.factorypath
 .project
 .settings
 .springBeans
 .sts4-cache
-.gradle
 
-### java ###
-.class
+# java
+*.class
+
 HELP.md
