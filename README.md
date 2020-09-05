@@ -46,6 +46,8 @@
   - UTF-8 인코딩 설정 중요
 ## 5. REST API
   - REST 한줄 설명 : 리소스를 HTTP URI로 잘 표현하고 (명사형), HTTP 메소드로 동작시키는 것. 여기서 리소스는 JSON, XML 등으로 표현 가능.
+  - **HTML의 form은 get과 post로만 동작하기 때문에 hidden method (_method)로 put 혹은 delete를 사용해야한다.**
+    - <pre><code> input type="hidden" id="method" name="_method" </code></pre>
   - **Spring Boot 2.1 이상은 HiddenHttpMethodFilter가 탑재되어 있는데 이게 default값이 false임**
   - 따라서 application.properties에 **꼭** 이것을 기입할 것.
     - <pre><code> spring.mvc.hiddenmethod.filter.enabled=true </pre></code>
