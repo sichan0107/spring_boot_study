@@ -1,0 +1,9 @@
+.metadata
+.settings/
+.recommenders
+.loadpath
+bin/
+tmp/
+*.bak
+*.tmp
+local.properties
