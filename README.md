@@ -73,9 +73,9 @@
       - <pre><code> spring.jpa.generate-ddl=false</code></pre>
     - Annotation
       - @EntityScan : 애플리케이션이 실행될 때 basePackages로 지정된 패키지에서 JPA의 @Entity가 설정된 클래스를 검색한다 (여기에 Jsr310JpaConverters를 등록해야 함)
-      - <pre><code> @EntityScan(basePackageClasses = {Jsr310Converters.class}, basePackages = {"board"}) </code></pre>
+        - <pre><code> @EntityScan(basePackageClasses = {Jsr310Converters.class}, basePackages = {"board"}) </code></pre>
       - @Query : 복잡한 쿼리를 만들어야한다면 이 어노테이션으로 만들 수 있다. 다만 주의점은 FROM 절에 테이블명이 아니라 엔티티명이 들어가야한다. 다음 예문을 참고하자
-      - <pre><code> SELECT file FROM BoardFileEntity file WHERE board_idx = :boardIdx </code></pre>
+        - <pre><code> SELECT file FROM BoardFileEntity file WHERE board_idx = :boardIdx </code></pre>
 
 
 ## 7. GCP
