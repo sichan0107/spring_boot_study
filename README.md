@@ -1,5 +1,16 @@
-# REST 게시판 
-
+# Spring Boot 공부 정리
+## 개발 환경
+  - Eclipse 2020
+  - Spring Boot 2.3.1
+  - STS 4
+  - Gradle
+  - DB : MySQL
+  - MySQL GUI Tool : SQLyog
+  - SQL Mapper : MyBatis
+  - Cloud Server : GCP
+  - API 문서화 : Swagger
+  - 자동 배포 : Jenkins
+  
 ## 1. AOP
   - 애플리케이션 전반에서 사용되는 기능을 여러 코드에 쉽게 적용할 수 있도록 도와줌
   - 예를 들어, 로그, 권한 체크, 인증, 예외 처리를 위한 부가 기능 클래스를 만들고 사용할 때
@@ -36,5 +47,37 @@
 ## 5. REST API
   - REST 한줄 설명 : 리소스를 HTTP URI로 잘 표현하고 (명사형), HTTP 메소드로 동작시키는 것. 여기서 리소스는 JSON, XML 등으로 표현 가능.
   - **Spring Boot 2.1 이상은 HiddenHttpMethodFilter가 탑재되어 있는데 이게 default값이 false임**
-  - 따라서 application.properties에 **꼭** 이것을 기입할 것. **spring.mvc.hiddenmethod.filter.enabled=true**
-## 6. 배포
+  - 따라서 application.properties에 **꼭** 이것을 기입할 것.
+    - <pre><code> spring.mvc.hiddenmethod.filter.enabled=true </pre></code>
+  
+## 6. JPA
+  - 웹 개발에 있어 공부했던 데이터베이스를 다루는 기술은 다음과 같음
+    - JDBC를 직접 사용
+    - MyBatis, iBatis 같은 SQL Mapper
+    - Hibernate, EclipseLink 같은 JPA 프로바이더
+  - JPA가 발전하는 이유
+    - JPA는 자바 객체와 테이블 간의 매핑을 처리하는 ORM의 표준, OOP의 객체와 테이블의 구조가 비슷하다는 점에서 시작됨
+    - 장점
+      - 개발이 편리함 (반복적으로 작성되는 기본적인 CRUD SQL을 작성할 필요가 없음)
+      - 특정 데이터베이스에 종속적이지 않아 데이터베이스가 바뀌어도 JPA가 알맞은 쿼리를 생성해줌
+      - 유지보수가 쉽다 (테이블이 변경되어도 객체(엔티티)만 수정하면 됨)
+    - 단점
+      - SQL을 직접 작성하지 않기 떄문에 튜닝에 어려움이 있다
+      - 특정 데이터베이스의 기능을 쓸 수 없다 (쓸려고 해도 독립적인 개발이 불가능하고, JPA의 장점을 누리지 못한다)
+      - 객체지향적인 설계가 필요하다
+  - Spring Data JPA : Spring에서 제공하며 내부적으로 Hibernate를 사용하고 있음. 
+    - Repository Interface
+      - 이걸 상속받아서 정해진 규칙에 맞게 메소드를 작성하면 된다.
+    - application.properties 설정 주의
+      - 실제 개발에선 DDL을 false로 해야함 (데이터 삭제될 수 있음)
+      - <pre><code> spring.jpa.generate-ddl=false</code></pre>
+    - Annotation
+      - @EntityScan : 애플리케이션이 실행될 때 basePackages로 지정된 패키지에서 JPA의 @Entity가 설정된 클래스를 검색한다 (여기에 Jsr310JpaConverters를 등록해야 함)
+      - <pre><code> @EntityScan(basePackageClasses = {Jsr310Converters.class}, basePackages = {"board"}) </code></pre>
+      - @Query : 복잡한 쿼리를 만들어야한다면 이 어노테이션으로 만들 수 있다. 다만 주의점은 FROM 절에 테이블명이 아니라 엔티티명이 들어가야한다. 다음 예문을 참고하자
+      - <pre><code> SELECT file FROM BoardFileEntity file WHERE board_idx = :boardIdx </code></pre>
+
+
+## 7. GCP
+
+## 8. Swagger & 배포
