@@ -84,5 +84,7 @@
   - VM에 인스턴스를 생성한 뒤 필요한 프로그램들을 설치하려면 SSH 연결 후 하면 된다.
   ![image](https://user-images.githubusercontent.com/40975942/92328179-cdb3da00-f099-11ea-8168-d753e7937fa5.png)
   - yum을 이용해서 설치를 해도 되지만, 로컬에서 SSH 터미널의 파일 업로드 기능을 이용해 서버로 설치파일을 전송하는 방법도 있다.
-
+  ![image](https://user-images.githubusercontent.com/40975942/92328266-68141d80-f09a-11ea-8868-f91ee7946f35.png)
+  - 톱니바퀴 아이콘을 누르면 파일 업로드 기능이 나온다. 압축파일을 올리고 gunzip, tar -xvf로 압축을 푼다.
+  
 ## 8. Swagger & 배포
