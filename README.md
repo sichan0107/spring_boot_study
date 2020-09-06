@@ -79,7 +79,8 @@
       - @Query : 복잡한 쿼리를 만들어야한다면 이 어노테이션으로 만들 수 있다. 다만 주의점은 FROM 절에 테이블명이 아니라 엔티티명이 들어가야한다. 다음 예문을 참고하자
         - <pre><code> SELECT file FROM BoardFileEntity file WHERE board_idx = :boardIdx </code></pre>
 
-
 ## 7. GCP
+  - 무료 이용으로 90일간 $300, 약 35만원의 크레딧을 받고 시작
+  - VM에 인스턴스를 생성한 뒤 필요한 프로그램들을 설치하려면 SSH 연결 후 하면 된다.
 
 ## 8. Swagger & 배포
