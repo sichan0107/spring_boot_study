@@ -86,5 +86,18 @@
   - yum을 이용해서 설치를 해도 되지만, 로컬에서 SSH 터미널의 파일 업로드 기능을 이용해 서버로 설치파일을 전송하는 방법도 있다.
   ![image](https://user-images.githubusercontent.com/40975942/92328266-68141d80-f09a-11ea-8868-f91ee7946f35.png)
   - 톱니바퀴 아이콘을 누르면 파일 업로드 기능이 나온다. 압축파일을 올리고 gunzip, tar -xvf로 압축을 푼다.
-  
-## 8. Swagger & 배포
+
+## 8. Jenkins
+  - 설치를 할때 잘 안되는 경우가 발생했다. 이렇게 입력했는데 install 단계에서 오류가 났다.
+    <pre>
+      <code> sudo yum -y install wget </code>
+      <code> sudo wget /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/</code>
+      <code> sudo rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</code>
+      <code> sudo yum -y install jenkins</code>
+    </pre>
+  - yum 레포지터리를 추가하려고 GCP CentOS에는 없는 wget을 우선 설치하고, 젠킨스 설치파일을 다운로드 후 install 했다.
+  - 에러는 아무래도 key의 문제일듯 했고, 찾아보던 중 stable 버전을 쓰라는 글을 보았다.
+  - 그래서 https://pkg.jenkins.io/redhat-stable/ 여기서 가장 최신버전의 파일을 받았다. (밑에 건 최신버전아니고 옛 버전을 예시)
+    <pre><code>yum -y install https://pkg.jenkins.io/redhat-stable/jenkins-2.89.3-1.1.noarch.rpm</code></pre>
+    
+## 9. Swagger 
