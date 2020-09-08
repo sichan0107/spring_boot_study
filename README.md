@@ -100,4 +100,8 @@
   - 그래서 https://pkg.jenkins.io/redhat-stable/ 여기서 가장 최신버전의 파일을 받았다. (밑에 건 최신버전아니고 옛 버전을 예시)
     <pre><code>yum -y install https://pkg.jenkins.io/redhat-stable/jenkins-2.89.3-1.1.noarch.rpm</code></pre>
     
-## 9. Swagger 
+## 9. Swagger
+  - 대규모 프로젝트에 있어서 API의 문서화는 시간이 많이 걸리지만 무척 중요함
+  - 프로젝트의 API 목록을 웹에서 확인 & 테스트 할 수 있도록 도와주는 라이브러리
+  
+
